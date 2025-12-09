@@ -14,9 +14,9 @@ const movieRoutes = require('./routes/movieRoutes');
 
 app.set('view engine', 'ejs');
 
-// app.use('/uploads', path.join(__dirname,'uploads'));
-
 app.use(express.urlencoded());
+
+app.use(express.static("public"));
 
 app.use('/movies',movieRoutes);
 

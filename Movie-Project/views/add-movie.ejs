@@ -41,50 +41,47 @@
         </nav>
     </header>
     <main>
-        <section>
-            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="images/banner/slide-1.jpg" class="d-block w-100" alt="slide-1">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="images/banner/slide-2.jpg" class="d-block w-100" alt="slide-2">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="images/banner/slide-3.jpg" class="d-block w-100" alt="slide-3">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </section>
         <section class="py-5">
             <div class="container">
-                <div class="title mb-4">
-                    <h2 class="fs-4">Recommended Movies</h2>
+                <div class="title mb-5 text-center">
+                    <h2 class="fs-4">Add Movie</h2>
                 </div>
-                <div class="row row-cols-5">
-                    <% movies.forEach(movie => { %>
-                        <div class="col">
-                            <a href="/movies/movieDetails/<%= movie._id %>" class="text-decoration-none">
-                                <div class="card bg-transparent rounded-0 border-0">
-                                    <img src="/uploads/<%= movie.poster %>" class="img-fluid rounded-4" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title fs-6"><%= movie.title %></h5>
-                                        <p class="card-text text-secondary fs-6"><%= movie.genre %></p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    <% })  %>
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        <form class="row g-3" method="post" action="/movies/addNewMovie" enctype="multipart/form-data">
+                            <div class="col-md-6">
+                                <label class="form-label">Movie Name</label>
+                                <input type="text" class="form-control" name="title">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Language</label>
+                                <input type="text" class="form-control" name="languages">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Genre</label>
+                                <input type="text" class="form-control" name="genre">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Rating</label>
+                                <input type="number" class="form-control" name="rating">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Duration</label>
+                                <input type="text" class="form-control" name="duration">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">Movie Image</label>
+                                <input type="file" class="form-control" name="poster">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Movie Description</label>
+                                <textarea name="desc" class="form-control"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-dark">Add Movie</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>

@@ -26,13 +26,31 @@ const fileFilter = (req, file, cb) => {
     else{
         cb(null, false);
     }
-}
+};
 
 const upload= multer({
     storage : storage,
     fileFilter : fileFilter
-})
+});
 
-route.get("/", movieCtl.getAllMovies);
+route.use(express.static('public'));
+
+route.use(express.urlencoded());
+
+route.get('/', movieCtl.indexPage);
+
+route.get('/addMovie', movieCtl.createMovieForm);
+
+route.post('/addNewMovie',upload.single('poster'), movieCtl.createMovie);
+
+route.get('/viewAllMovie', movieCtl.getAllMovies);
+
+route.get('/movieDetails/:id', movieCtl.getMovieDetails);
+
+route.get('/edit/:id', movieCtl.editMovieForm);
+
+route.post('/update/:id', upload.single('poster'), movieCtl.updateMovie);
+
+route.get('/delete/:id', movieCtl.deleteMovie);
 
 module.exports = route;

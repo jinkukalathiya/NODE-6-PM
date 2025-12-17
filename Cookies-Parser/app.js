@@ -12,7 +12,7 @@ app.use(express.urlencoded());
 
 app.get('/set-cookie', (req, res) => {
     res.cookie("username","Jinkal", {
-        maxAge : 100 * 60 * 10,
+        maxAge : 1000 * 60 * 10,
         httpOnly : true
     })
     res.send("Cookie Has been Send...!");

@@ -1,7 +1,27 @@
 module.exports.dashboard = (req, res) => {
-    return res.render('dashboard');
+    try{
+        return res.render('dashboard');
+    }
+    catch(err){
+        console.log(err);        
+    }
 }
 
 module.exports.addAdmin = (req, res) => {
-    return res.render('add-admin');
+    try{
+        return res.render('add-admin');
+    }
+    catch(err){
+        console.log(err);        
+    }
+}
+
+module.exports.insertAdminData = (req, res) => {
+    try{
+        console.log(req.body);
+        console.log(req.file);
+    }
+    catch(err){
+        console.log(err);        
+    }
 }

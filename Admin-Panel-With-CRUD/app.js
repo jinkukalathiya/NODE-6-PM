@@ -14,9 +14,13 @@ app.set("views",path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'assets')));
 
+app.use('/uploads',express.static(path.join(__dirname, 'uploads')));
+
 app.use(express.urlencoded());
 
 app.use("/",require("./routes/adminRoutes"));
+
+db();
 
 app.listen(port, (err) => {
     if(err){

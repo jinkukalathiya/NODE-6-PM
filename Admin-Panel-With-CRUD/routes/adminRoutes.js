@@ -14,4 +14,8 @@ route.get('/add-admin', adminCtl.addAdmin);
 
 route.post('/insertAdminData',Admin.uploadAdminImages ,adminCtl.insertAdminData);
 
+route.get('/view-admin', adminCtl.viewAdmin);
+
+route.get('/deleteAdmin/:_id', adminCtl.deleteAdmin);
+
 module.exports = route;

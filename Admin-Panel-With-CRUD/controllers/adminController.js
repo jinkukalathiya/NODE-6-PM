@@ -35,13 +35,10 @@ module.exports.addAdmin = (req, res) => {
 
 module.exports.insertAdminData = async(req, res) => {
     try{
-        console.log(req.body);
-        console.log(req.file);
-        // const {fname, lname, email, password, gender, hobby, desc} = req.body;
         req.body.name = req.body.fname+" "+req.body.lname;
         req.body.avtar = '';
         if(req.file){
-            req.body.avtar = Admin.adPath+"/"+req.file.filename;
+            req.body.avtar = req.file ? Admin.adPath + "/" + req.file.filename : '';
         }
         let adminRecord = await Admin.create(req.body);
         if(adminRecord){
@@ -91,7 +88,7 @@ module.exports.deleteAdmin = async (req, res) => {
             let deleteAdmin = await Admin.findByIdAndDelete(adminId);
             if(deleteAdmin){
                 console.log("Admin Record Deleted Successfully..");
-                return res.redirect('back');
+                return res.redirect('/view-admin');
             }
             else{
                 console.log("Error in Deleting Admin Record..");
@@ -132,10 +129,14 @@ module.exports.editAdminData = async (req, res) => {
             req.body.name = req.body.fname+" "+req.body.lname;
             req.body.avtar = '';
             if(req.file){
-                req.body.avtar = Admin.adPath+"/"+req.file.filename;
+                if(oldAdminData.avtar){
+                    let oldPath = path.join(__dirname,"..",oldAdminData.avtar);
+                    fs.unlinkSync(oldPath);
+                }
+                req.body.avtar = Admin.adPath + "/" + req.file.filename;
             }
             else{
-                req.body.avtar = req.file;
+                req.body.avtar = oldAdminData.avtar;
             }
             let newadminData = await Admin.findByIdAndUpdate(adminId,req.body);
             if(newadminData){

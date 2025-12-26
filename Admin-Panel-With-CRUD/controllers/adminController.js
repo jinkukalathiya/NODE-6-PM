@@ -6,6 +6,15 @@ const fs = require('fs');
 
 const bcrypt = require('bcrypt');
 
+module.exports.login = (req, res) => {
+    try{
+        return res.render('login');
+    }
+    catch(err){
+        console.log(err);        
+    }
+}
+
 module.exports.dashboard = (req, res) => {
     try{
         return res.render('dashboard');
@@ -34,17 +43,6 @@ module.exports.insertAdminData = async(req, res) => {
         if(req.file){
             req.body.avtar = Admin.adPath+"/"+req.file.filename;
         }
-        // const hashPassword = await bcrypt.hash(password,10);
-        
-        // let adminRecord = await Admin.create({
-        //     name,
-        //     email,
-        //     password : hashPassword,
-        //     gender,
-        //     hobby,
-        //     desc
-        // });
-
         let adminRecord = await Admin.create(req.body);
         if(adminRecord){
             console.log("Admin Record Inserted Successfully..");
@@ -103,6 +101,56 @@ module.exports.deleteAdmin = async (req, res) => {
         else{
             console.log(err);
         }
+    }
+    catch(err){
+        console.log(err);        
+    }
+}
+
+module.exports.updateAdmin = async (req, res) => {
+    try{
+        let adminId = req.query.adminId;
+        let oldAdminData = await Admin.findById(adminId);
+        if(oldAdminData){
+            return res.render('edit-admin',{oldAdminData});
+        }
+        else{
+            console.log("Record Not Found..");
+            return res.redirect('back');
+        }
+    }
+    catch(err){
+        console.log(err);        
+    }
+}
+
+module.exports.editAdminData = async (req, res) => {
+    try{
+        const adminId = req.params.id;
+        let oldAdminData = await Admin.findById(adminId);
+        if(oldAdminData){
+            req.body.name = req.body.fname+" "+req.body.lname;
+            req.body.avtar = '';
+            if(req.file){
+                req.body.avtar = Admin.adPath+"/"+req.file.filename;
+            }
+            else{
+                req.body.avtar = req.file;
+            }
+            let newadminData = await Admin.findByIdAndUpdate(adminId,req.body);
+            if(newadminData){
+                console.log("Admin Record Updated Successfully..");
+                return res.redirect("/view-admin");
+            }
+            else{
+                console.log("Something Wrong..");
+                return res.redirect('back');
+            }
+        }
+        else{
+            console.log("Record Not Found..");
+            return res.redirect('back');
+        }        
     }
     catch(err){
         console.log(err);        

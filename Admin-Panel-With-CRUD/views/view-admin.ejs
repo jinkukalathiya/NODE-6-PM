@@ -64,6 +64,7 @@
                             <td><%= record.desc %></td>
                             <td>
                               <a class="text-danger" href="/deleteAdmin/<%= record._id %>" onclick="confirm('Are you Sure to delete this Record ?')" ><i class="bi bi-trash3-fill"></i></a>
+                              <a class="text-danger" href="/updateAdmin/?adminId=<%= record._id %>" ><i class="bi bi-pencil-square"></i></a>
                             </td>
                           </tr>
                         <% i++; } %>

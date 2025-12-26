@@ -9,12 +9,12 @@
         <!--begin::Row-->
         <div class="row">
           <div class="col-sm-6">
-            <h3 class="mb-0">Add Admin</h3>
+            <h3 class="mb-0">Edit Admin</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-end">
               <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Add Admin</li>
+              <li class="breadcrumb-item active" aria-current="page">Edit Admin</li>
             </ol>
           </div>
         </div>
@@ -33,37 +33,38 @@
           <div class="col-md-6">
             <!--begin::Quick Example-->
             <div class="card card-primary card-outline mb-4">
+                <% var editName = oldAdminData.name.split(" ") %>
               <!--begin::Form-->
-              <form method="post" action="/insertAdminData" enctype="multipart/form-data">
+              <form method="post" action="/editAdminData/<%= oldAdminData.id %>" enctype="multipart/form-data">
                 <!--begin::Body-->
                 <div class="card-body">
                   <div class="mb-3">
                     <label class="form-label">First Name</label>
-                    <input type="text" name="fname" class="form-control" placeholder="Enter Your First Name" />
+                    <input type="text" name="fname" class="form-control" value="<%= editName[0] %>" placeholder="Enter Your First Name" />
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Last Name</label>
-                    <input type="text" name="lname" class="form-control" placeholder="Enter Your Last Name" />
+                    <input type="text" name="lname" class="form-control" value="<%= editName[1] %>" placeholder="Enter Your Last Name" />
                   </div>
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Enter Your Email Address" />
+                    <input type="email" name="email" class="form-control" value="<%= oldAdminData.email %>" placeholder="Enter Your Email Address" />
                   </div>
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Enter Your Password" />
+                    <input type="password" name="password" class="form-control" value="<%= oldAdminData.password %>" placeholder="Enter Your Password" />
                   </div>
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Gender</label>
                     <div class="form-check">
                       <label class="form-check-label" for="maleRadio">
-                        <input class="form-check-input" type="radio" name="gender" value="male" id="maleRadio" />
+                        <input class="form-check-input" type="radio" name="gender" value="male" <% if(oldAdminData.gender == 'male') { %> checked <% } %> />
                         Male
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label" for="femaleRadio">
-                        <input class="form-check-input" type="radio" name="gender" value="female" id="femaleRadio" />
+                        <input class="form-check-input" type="radio" name="gender" value="female" <% if(oldAdminData.gender == 'female') { %> checked <% } %> id="femaleRadio" />
                         Female
                       </label>
                     </div>
@@ -72,42 +73,43 @@
                     <label for="exampleInputEmail1" class="form-label">Hobby</label>
                     <div class="form-check">
                       <label class="form-check-label" for="reading">
-                        <input class="form-check-input" type="checkbox" name="hobby" value="reading" id="reading" />
+                        <input class="form-check-input" type="checkbox" name="hobby" value="reading" <% if(oldAdminData.hobby.includes('reading')) { %> checked <% } %> id="reading" />
                         Reading
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label" for="writing">
-                        <input class="form-check-input" type="checkbox" name="hobby" value="writing" id="writing" />
+                        <input class="form-check-input" type="checkbox" name="hobby" value="writing" <% if(oldAdminData.hobby.includes('writing')) { %> checked <% } %> id="writing" />
                         Writing
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label" for="travelling">
-                        <input class="form-check-input" type="checkbox" name="hobby" value="travelling" id="travelling" />
+                        <input class="form-check-input" type="checkbox" name="hobby" value="travelling" <% if(oldAdminData.hobby.includes('travelling')) { %> checked <% } %> id="travelling" />
                         Travelling
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label" for="surfing">
-                        <input class="form-check-input" type="checkbox" name="hobby" value="surfing" id="surfing" />
+                        <input class="form-check-input" type="checkbox" name="hobby" value="surfing" <% if(oldAdminData.hobby.includes('surfing')) { %> checked <% } %>  id="surfing" />
                         Surfing
                       </label>
                     </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea name="desc" class="form-control"></textarea>
+                    <textarea name="desc" class="form-control"><%= oldAdminData.desc %></textarea>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Profile Image</label>
                     <input type="file" name="avtar" class="form-control">
+                    <img src="<%= oldAdminData.avtar %>" height="100"/>
                   </div>
                 </div>
                 <!--end::Body-->
                 <!--begin::Footer-->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Register</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
                 </div>
                 <!--end::Footer-->
               </form>

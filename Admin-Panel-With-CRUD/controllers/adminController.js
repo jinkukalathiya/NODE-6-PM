@@ -15,6 +15,32 @@ module.exports.login = (req, res) => {
     }
 }
 
+module.exports.checkLogin = async (req, res) => {
+    try{
+        // console.log(req.body);
+        let checkEmail = await Admin.findOne({email:req.body.email});
+        // console.log(checkEmail);
+        if(checkEmail){
+            if(checkEmail.password == req.body.password){
+                console.log("Login Successfully");
+                return res.render("dashboard");
+            }
+            else{
+                console.log("Invalid Password");
+                return res.redirect("/");
+            }
+        }
+        else{
+            console.log("Email I'D is Invalid");
+            return res.redirect("/");       
+        }
+    }
+    catch(err){
+        console.log("Something Wrong");
+        return res.redirect("/");        
+    }
+}
+
 module.exports.dashboard = (req, res) => {
     try{
         return res.render('dashboard');

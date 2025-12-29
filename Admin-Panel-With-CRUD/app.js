@@ -8,6 +8,8 @@ const path = require('path');
 
 const db = require('./config/db');
 
+const cookieParser = require('cookie-parser');
+
 app.set('view engine', 'ejs');
 
 app.set("views",path.join(__dirname, 'views'));
@@ -17,6 +19,8 @@ app.use(express.static(path.join(__dirname, 'assets')));
 app.use('/uploads',express.static(path.join(__dirname, 'uploads')));
 
 app.use(express.urlencoded());
+
+app.use(cookieParser());
 
 app.use("/",require("./routes/adminRoutes"));
 

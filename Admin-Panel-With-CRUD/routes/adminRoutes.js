@@ -8,7 +8,11 @@ const adminCtl = require('../controllers/adminController');
 
 const Admin = require('../models/Admin');
 
+const authMid = require('../middlewares/authMiddleware');
+
 route.get('/', adminCtl.login);
+
+route.post('/checkLogin', adminCtl.checkLogin);
 
 route.get('/dashboard', adminCtl.dashboard);
 

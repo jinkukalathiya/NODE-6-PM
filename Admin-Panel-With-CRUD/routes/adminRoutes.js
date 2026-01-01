@@ -14,6 +14,12 @@ route.get('/', adminCtl.login);
 
 route.post('/checkLogin', adminCtl.checkLogin);
 
+route.get('/signout', adminCtl.signout);
+
+route.get('/changePassword', adminCtl.changePassword);
+
+route.post('/checkChangePassword', adminCtl.checkChangePassword);
+
 route.get('/dashboard', adminCtl.dashboard);
 
 route.get('/add-admin', adminCtl.addAdmin);

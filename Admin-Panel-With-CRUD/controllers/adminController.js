@@ -8,22 +8,97 @@ const bcrypt = require('bcrypt');
 
 module.exports.login = (req, res) => {
     try{
-        return res.render('login');
+        if (req.cookies.admin) {
+            return res.redirect('/dashboard');
+        }
+        else{
+            return res.render('login');
+        }
     }
     catch(err){
-        console.log(err);        
+        console.log(err);      
+        return res.redirect('/');   
+    }
+}
+
+module.exports.signout = (req, res) => {
+    try{
+        res.clearCookie('admin');
+        return res.redirect('/');
+    }
+    catch(err){
+        console.log(err);    
+        return res.redirect('/');
+    }
+}
+
+module.exports.changePassword = async(req, res) => {
+    try{
+        if(req.cookies.admin==undefined){
+            return res.redirect('/');
+        }
+        else{
+            let adminId = req.cookies.admin._id;
+            let adminData = await Admin.findById(adminId);  
+            if(adminData){
+                let adminRecord = req.cookies.admin;
+                return res.render('change-password',{
+                    adminRecord, adminData
+                });
+            }
+            else{
+                return res.redirect('/');
+            }        
+        }
+    }
+    catch(err){
+        console.log(err);    
+        return res.redirect('/');
+    }
+}
+
+module.exports.checkChangePassword = async(req, res) => {
+    try{
+        let oldPass = req.cookies.admin.password;
+        let adminId = req.cookies.admin._id;
+        if(oldPass == req.body.currentPass){
+            if(oldPass !== req.body.npassword){
+                if(req.body.npassword == req.body.cpassword){
+                    let adminData = await Admin.findByIdAndUpdate(adminId,{password : req.body.npassword});
+                    if(adminData){
+                        console.log("Password Change Successfully..");
+                        return res.redirect('/signout');
+                    }
+                }
+                else{
+                    console.log("New Password and Confirm password not Same..");
+                    return res.redirect('/');
+                }
+            }   
+            else{
+                console.log("Old Password and New Password Same..");
+                return res.redirect('/');
+            } 
+        }
+        else{
+            console.log("Current Password Could not Match..");
+            return res.redirect('/');
+        }        
+    }
+    catch(err){
+        console.log(err);    
+        return res.redirect('/');
     }
 }
 
 module.exports.checkLogin = async (req, res) => {
     try{
-        // console.log(req.body);
         let checkEmail = await Admin.findOne({email:req.body.email});
-        // console.log(checkEmail);
         if(checkEmail){
             if(checkEmail.password == req.body.password){
                 console.log("Login Successfully");
-                return res.render("dashboard");
+                res.cookie('admin',checkEmail);
+                return res.redirect('/dashboard');
             }
             else{
                 console.log("Invalid Password");
@@ -41,21 +116,44 @@ module.exports.checkLogin = async (req, res) => {
     }
 }
 
-module.exports.dashboard = (req, res) => {
+module.exports.dashboard = async (req, res) => {
     try{
-        return res.render('dashboard');
+        if(req.cookies.admin==undefined){
+            return res.redirect('/');
+        }
+        else{
+            let adminData = await Admin.findById(req.cookies.admin._id);
+            return res.render('dashboard', { adminData });            
+        }
     }
     catch(err){
-        console.log(err);        
+        console.log(err);
+        return res.redirect('/');       
     }
 }
 
-module.exports.addAdmin = (req, res) => {
+module.exports.addAdmin = async (req, res) => {
     try{
-        return res.render('add-admin');
+        if(req.cookies.admin==undefined){
+            return res.redirect('/');
+        }
+        else{
+            let adminId = req.cookies.admin._id;
+            let adminData = await Admin.findById(adminId);
+            if(adminData){
+                let adminRecord = req.cookies.admin;
+                return res.render('add-admin',{
+                    adminRecord, adminData
+                });
+            }
+            else{
+                return res.redirect('/');
+            } 
+        }
     }
     catch(err){
-        console.log(err);        
+        console.log(err); 
+        return res.redirect('/');       
     }
 }
 
@@ -77,25 +175,34 @@ module.exports.insertAdminData = async(req, res) => {
         }
     }
     catch(err){
-        console.log(err);        
+        console.log(err);
+        return res.redirect('/');        
     }
 }
 
 module.exports.viewAdmin = async (req, res) => {
     try{
-        let adminRecord = await Admin.find();
-        if(adminRecord){
-            return res.render('view-admin',{
-                adminRecord
-            });
+        if(req.cookies.admin==undefined){
+            return res.redirect('/');
         }
         else{
-            return res.render('view-admin', []);
+            let adminId = req.cookies.admin._id;
+            let adminData = await Admin.findById(adminId);
+            if(adminData){
+                let adminRecord = await Admin.find();
+                if(adminRecord){
+                    return res.render('view-admin', {
+                        adminRecord, adminData
+                    })
+                }
+            }            
         }
     }
     catch(err){
-        console.log(err);        
+        console.log(err);
+        return res.redirect('/');        
     }
+
 }
 
 module.exports.deleteAdmin = async (req, res) => {
@@ -126,7 +233,8 @@ module.exports.deleteAdmin = async (req, res) => {
         }
     }
     catch(err){
-        console.log(err);        
+        console.log(err);
+        return res.redirect('/');        
     }
 }
 
@@ -143,7 +251,8 @@ module.exports.updateAdmin = async (req, res) => {
         }
     }
     catch(err){
-        console.log(err);        
+        console.log(err);
+        return res.redirect('/');        
     }
 }
 
@@ -180,6 +289,7 @@ module.exports.editAdminData = async (req, res) => {
         }        
     }
     catch(err){
-        console.log(err);        
+        console.log(err);
+        return res.redirect('/');        
     }
 }

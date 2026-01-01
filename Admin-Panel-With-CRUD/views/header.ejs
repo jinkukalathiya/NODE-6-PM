@@ -64,7 +64,7 @@
               <i class="bi bi-list"></i>
             </a>
           </li>
-          <li class="nav-item d-none d-md-block"><a href="/" class="nav-link">Home</a></li>
+          <li class="nav-item d-none d-md-block"><a href="\dashboard" class="nav-link">Home</a></li>
           <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
         </ul>
         <!--end::Start Navbar Links-->
@@ -191,14 +191,14 @@
           <!--begin::User Menu Dropdown-->
           <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-
-              
-          
+              <img src="<%= adminData.avtar %>" class="user-image rounded-circle shadow" alt="User Image">
+              <span class="d-none d-md-inline"><%= adminData.name %></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <!--begin::User Image-->
               <li class="user-header text-bg-primary">
-                   
+                <img src="<%= adminData.avtar %>" class="rounded-circle shadow" alt="User Image">
+                <p><%= adminData.name %></p>
                 <p>
                   <small>Member since Nov. 2023</small>
                 </p>
@@ -208,19 +208,19 @@
               <li class="user-body">
                 <!--begin::Row-->
                 <div class="row">
-                  <div class="col-4 text-center"><a href="#">Followers</a></div>
-                  <div class="col-4 text-center"><a href="#">Sales</a></div>
-                  <div class="col-4 text-center"><a href="#">Friends</a></div>
+                  <div class="col-12">
+                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  </div>
+                  <div class="col-12">
+                    <a href="/changePassword" class="btn btn-default btn-flat">Change Password</a>
+                  </div>
+                  <div class="col-12">
+                    <a href="/signout" class="btn btn-default btn-flat">Sign out</a>
+                  </div>
                 </div>
                 <!--end::Row-->
               </li>
               <!--end::Menu Body-->
-              <!--begin::Menu Footer-->
-              <li class="user-footer">
-                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
-              </li>
-              <!--end::Menu Footer-->
             </ul>
           </li>
           <!--end::User Menu Dropdown-->
@@ -253,7 +253,7 @@
           <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
             aria-label="Main navigation" data-accordion="false" id="navigation">
             <li class="nav-item">
-              <a href="/" class="nav-link active">
+              <a href="/dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-circle"></i>
                   <p>Dashboard</p>
               </a>

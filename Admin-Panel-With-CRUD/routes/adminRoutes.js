@@ -20,6 +20,10 @@ route.get('/changePassword', adminCtl.changePassword);
 
 route.post('/checkChangePassword', adminCtl.checkChangePassword);
 
+route.get('/profile', adminCtl.profile);
+
+// route.get('/forgotPassword', adminCtl.forgotPassword);
+
 route.get('/dashboard', adminCtl.dashboard);
 
 route.get('/add-admin', adminCtl.addAdmin);

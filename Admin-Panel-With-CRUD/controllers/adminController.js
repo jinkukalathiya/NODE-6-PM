@@ -116,6 +116,37 @@ module.exports.checkLogin = async (req, res) => {
     }
 }
 
+module.exports.profile = async (req, res) => {
+    try{
+        if(req.cookies.admin==undefined){
+            return res.redirect('/');
+        }
+        else{
+            let adminId = req.cookies.admin._id;
+            let adminData = await Admin.findById(adminId);
+            if(adminData){
+                return res.render('profile', {
+                    adminData
+                });
+            }
+        }
+    }
+    catch(err){
+        console.log(err);      
+        return res.redirect('/');   
+    }
+}
+
+// module.exports.forgotPassword = (req, res) => {
+//     try{
+//         return res.redirect('/forgotPassword/viaEmail');
+//     }
+//     catch(err){
+//         console.log(err);      
+//         return res.redirect('/');   
+//     }
+// }
+
 module.exports.dashboard = async (req, res) => {
     try{
         if(req.cookies.admin==undefined){
@@ -240,14 +271,23 @@ module.exports.deleteAdmin = async (req, res) => {
 
 module.exports.updateAdmin = async (req, res) => {
     try{
-        let adminId = req.query.adminId;
-        let oldAdminData = await Admin.findById(adminId);
-        if(oldAdminData){
-            return res.render('edit-admin',{oldAdminData});
+        if(req.cookies.admin==undefined){
+            return res.redirect('/');
         }
         else{
-            console.log("Record Not Found..");
-            return res.redirect('back');
+            let adminId = req.cookies.admin._id;
+            let adminData = await Admin.findById(adminId);
+            if(adminData){
+                let adminId = req.query.adminId;
+                let oldAdminData = await Admin.findById(adminId);
+                if(oldAdminData){
+                    return res.render('edit-admin',{oldAdminData, adminData});
+                }
+                else{
+                    console.log("Record Not Found..");
+                    return res.redirect('back');
+                }
+            }
         }
     }
     catch(err){

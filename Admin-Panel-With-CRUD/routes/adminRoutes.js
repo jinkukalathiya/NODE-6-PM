@@ -22,7 +22,17 @@ route.post('/checkChangePassword', adminCtl.checkChangePassword);
 
 route.get('/profile', adminCtl.profile);
 
-// route.get('/forgotPassword', adminCtl.forgotPassword);
+route.get('/verifyEmail', adminCtl.verifyEmail);
+
+route.post('/checkEmail', adminCtl.checkEmail);
+
+route.get('/otpPage', adminCtl.otpPage);
+
+route.post('/verifyOTP', adminCtl.verifyOTP);
+
+route.get('/newPassword', adminCtl.newPassword);
+
+route.post('/forgotPassword', adminCtl.forgotPassword);
 
 route.get('/dashboard', adminCtl.dashboard);
 

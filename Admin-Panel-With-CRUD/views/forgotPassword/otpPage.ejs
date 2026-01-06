@@ -69,21 +69,21 @@
           </a>
         </div>
         <div class="card-body login-card-body">
-          <p class="login-box-msg">Verify Email</p>
-          <form action="/checkEmail" method="post">
+          <p class="login-box-msg">Verify OTP</p>
+          <form action="/verifyOTP" method="post">
             <div class="input-group mb-2">
               <div class="form-floating">
-                <input id="loginEmail" type="email" name="email" class="form-control" value="" placeholder="" />
-                <label for="loginEmail">Email</label>
+                <input type="number" name="otp" class="form-control" value="" placeholder="" />
+                <label for="loginEmail">OTP</label>
               </div>
-              <div class="input-group-text"><span class="bi bi-envelope"></span></div>
+              <div class="input-group-text"><i class="bi bi-patch-check"></i></div>
             </div>
             <!--begin::Row-->
             <div class="row">
               <!-- /.col -->
               <div class="col-5">
                 <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary">Verify Email</button>
+                  <button type="submit" class="btn btn-primary">Verify OTP</button>
                 </div>
               </div>
               <!-- /.col -->

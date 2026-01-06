@@ -6,6 +6,8 @@ const fs = require('fs');
 
 const bcrypt = require('bcrypt');
 
+const nodemailer = require("nodemailer");
+
 module.exports.login = (req, res) => {
     try{
         if (req.cookies.admin) {
@@ -137,15 +139,132 @@ module.exports.profile = async (req, res) => {
     }
 }
 
-// module.exports.forgotPassword = (req, res) => {
-//     try{
-//         return res.redirect('/forgotPassword/viaEmail');
-//     }
-//     catch(err){
-//         console.log(err);      
-//         return res.redirect('/');   
-//     }
-// }
+module.exports.verifyEmail = async (req, res) => {
+    try{
+        return res.render('forgotPassword/viaEmail');
+    }
+    catch(err){
+        console.log(err);      
+        return res.redirect('/');   
+    }
+}
+
+module.exports.checkEmail = async (req, res) => {
+    try{
+        console.log(req.body);
+        let checkEmailId = await Admin.findOne({email:req.body.email});
+        if(checkEmailId){
+            const transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 587,
+                secure: false, // Use true for port 465, false for port 587
+                auth: {
+                    user: "rnw1webjinkal@gmail.com",
+                    pass: "hrsjmjsdcyyfqllb",
+                },
+            });
+            const OTP = Math.floor(Math.random()*999999)
+            res.cookie("OTP",OTP);
+            res.cookie('Email',req.body.email);
+            const info = await transporter.sendMail({
+                from: '<rnw1webjinkal@gmail.com>',
+                to: req.body.email,
+                subject: "OTP from Admin Panel",
+                text: "Your OTP", // Plain-text version of the message
+                html: `<b>Your OTP is : ${OTP} </b>`, // HTML version of the message
+            });
+
+            // console.log("Message sent:", info.messageId);
+
+            if(info.messageId){
+                console.log("Email Sent Successfully...");
+                return res.redirect("/otpPage");
+            }
+            else{
+                console.log("Email not Sent");      
+                return res.redirect('/');
+            }
+        }
+        else{
+            console.log("Email I'D not Verify");      
+            return res.redirect('/');
+        }
+    }
+    catch(err){
+        console.log(err);      
+        return res.redirect('/');   
+    }
+}
+
+module.exports.otpPage = (req, res) => {
+    try{
+        return res.render('forgotPassword/otpPage');
+    }
+    catch(err){
+        console.log(err);      
+        return res.redirect('/');   
+    }
+}
+
+module.exports.verifyOTP = async(req, res) => {
+    try{
+        console.log("OTP : "+req.body.otp);
+        console.log("developer : "+req.cookies.OTP);
+        if(req.body.otp == req.cookies.OTP){
+            return res.redirect("/newPassword")
+        }
+    }
+    catch(err){
+        console.log(err);      
+        return res.redirect('back');   
+    }
+}
+
+module.exports.newPassword = (req, res) => {
+    try{
+        return res.render('forgotPassword/newPassword');
+    }
+    catch(err){
+        console.log(err);      
+        return res.redirect('back');   
+    }
+}
+
+module.exports.forgotPassword = async (req, res) => {
+    try{
+        console.log(req.body);
+        let email = req.cookies.Email;
+        if(req.body.npass == req.body.cpass){
+            let checkEmail = await Admin.findOne({email : email});
+            console.log(checkEmail);
+            if(checkEmail){
+                let updatedPassword = await Admin.findByIdAndUpdate(checkEmail.id,{password:req.body.npass});
+                if(updatedPassword){
+                    console.log("Password Updated Successfully..."); 
+                    res.clearCookie("OTP");     
+                    res.clearCookie("Email");     
+                    return res.redirect('/signout');
+                }
+                else{
+                    console.log("Password Not Updated");      
+                    return res.redirect('back');
+                }
+            }
+            else{
+                console.log("Invalid Email I'D");      
+                return res.redirect('/forgotPassword/viaEmail');
+            }
+        }
+        else{
+            console.log("New Password and Confirm Password Not Match...");
+            return res.redirect('back'); 
+        }
+    }
+    catch(err){
+        console.log(err);      
+        return res.redirect('/');   
+    }
+}
 
 module.exports.dashboard = async (req, res) => {
     try{

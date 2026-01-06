@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 
 const nodemailer = require("nodemailer");
 
+const passport = require('passport');
+
 module.exports.login = (req, res) => {
     try{
         if (req.cookies.admin) {
@@ -95,26 +97,12 @@ module.exports.checkChangePassword = async(req, res) => {
 
 module.exports.checkLogin = async (req, res) => {
     try{
-        let checkEmail = await Admin.findOne({email:req.body.email});
-        if(checkEmail){
-            if(checkEmail.password == req.body.password){
-                console.log("Login Successfully");
-                res.cookie('admin',checkEmail);
-                return res.redirect('/dashboard');
-            }
-            else{
-                console.log("Invalid Password");
-                return res.redirect("/");
-            }
-        }
-        else{
-            console.log("Email I'D is Invalid");
-            return res.redirect("/");       
-        }
+        console.log("Login Successfully");
+        return res.redirect('/dashboard');
     }
     catch(err){
         console.log("Something Wrong");
-        return res.redirect("/");        
+        return res.redirect("/");
     }
 }
 
@@ -268,13 +256,11 @@ module.exports.forgotPassword = async (req, res) => {
 
 module.exports.dashboard = async (req, res) => {
     try{
-        if(req.cookies.admin==undefined){
+        if(!req.isAuthenticated()){
             return res.redirect('/');
         }
-        else{
-            let adminData = await Admin.findById(req.cookies.admin._id);
-            return res.render('dashboard', { adminData });            
-        }
+        let adminData = req.user;
+        return res.render('dashboard', { adminData });
     }
     catch(err){
         console.log(err);

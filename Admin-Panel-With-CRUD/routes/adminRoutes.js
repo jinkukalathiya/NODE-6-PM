@@ -8,11 +8,11 @@ const adminCtl = require('../controllers/adminController');
 
 const Admin = require('../models/Admin');
 
-const authMid = require('../middlewares/authMiddleware');
+const passport = require('passport');
 
 route.get('/', adminCtl.login);
 
-route.post('/checkLogin', adminCtl.checkLogin);
+route.post('/checkLogin', passport.authenticate('local',{failureRedirect : '/'}) ,adminCtl.checkLogin);
 
 route.get('/signout', adminCtl.signout);
 

@@ -38,22 +38,27 @@ module.exports.signout = (req, res) => {
 
 module.exports.changePassword = async(req, res) => {
     try{
-        if(req.cookies.admin==undefined){
-            return res.redirect('/');
-        }
-        else{
-            let adminId = req.cookies.admin._id;
-            let adminData = await Admin.findById(adminId);  
-            if(adminData){
-                let adminRecord = req.cookies.admin;
-                return res.render('change-password',{
-                    adminRecord, adminData
-                });
-            }
-            else{
-                return res.redirect('/');
-            }        
-        }
+        // if(req.cookies.admin==undefined){
+        //     return res.redirect('/');
+        // }
+        // else{
+        //     let adminId = req.cookies.admin._id;
+        //     let adminData = await Admin.findById(adminId);  
+        //     if(adminData){
+        //         let adminRecord = req.cookies.admin;
+        //         return res.render('change-password',{
+        //             adminRecord, adminData
+        //         });
+        //     }
+        //     else{
+        //         return res.redirect('/');
+        //     }        
+        // }
+
+        let adminData = await Admin.findById(req.user._id);
+        return res.render('change-password', {
+            adminData
+        })
     }
     catch(err){
         console.log(err);    
@@ -63,8 +68,8 @@ module.exports.changePassword = async(req, res) => {
 
 module.exports.checkChangePassword = async(req, res) => {
     try{
-        let oldPass = req.cookies.admin.password;
-        let adminId = req.cookies.admin._id;
+        let oldPass = req.user.password;
+        let adminId = req.user._id;
         if(oldPass == req.body.currentPass){
             if(oldPass !== req.body.npassword){
                 if(req.body.npassword == req.body.cpassword){
@@ -270,22 +275,11 @@ module.exports.dashboard = async (req, res) => {
 
 module.exports.addAdmin = async (req, res) => {
     try{
-        if(req.cookies.admin==undefined){
-            return res.redirect('/');
-        }
-        else{
-            let adminId = req.cookies.admin._id;
-            let adminData = await Admin.findById(adminId);
-            if(adminData){
-                let adminRecord = req.cookies.admin;
-                return res.render('add-admin',{
-                    adminRecord, adminData
-                });
-            }
-            else{
-                return res.redirect('/');
-            } 
-        }
+        let adminData = await Admin.findById(req.user._id);
+        return res.render('add-admin', {
+            adminData,
+            adminRecord : adminData
+        })
     }
     catch(err){
         console.log(err); 
@@ -318,25 +312,15 @@ module.exports.insertAdminData = async(req, res) => {
 
 module.exports.viewAdmin = async (req, res) => {
     try{
-        if(req.cookies.admin==undefined){
-            return res.redirect('/');
-        }
-        else{
-            let adminId = req.cookies.admin._id;
-            let adminData = await Admin.findById(adminId);
-            if(adminData){
-                let adminRecord = await Admin.find();
-                if(adminRecord){
-                    return res.render('view-admin', {
-                        adminRecord, adminData
-                    })
-                }
-            }            
-        }
+        let adminData = await Admin.find({});
+        console.log(adminData);
+        return res.render('view-admin', {
+            adminData : adminData
+        })
     }
     catch(err){
         console.log(err);
-        return res.redirect('/');        
+        res.render('view-admin', { adminData: [] });  
     }
 
 }

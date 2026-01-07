@@ -16,11 +16,11 @@ route.post('/checkLogin', passport.authenticate('local',{failureRedirect : '/'})
 
 route.get('/signout', adminCtl.signout);
 
-route.get('/changePassword', adminCtl.changePassword);
+route.get('/changePassword',passport.checkAuthentication, adminCtl.changePassword);
 
-route.post('/checkChangePassword', adminCtl.checkChangePassword);
+route.post('/checkChangePassword',passport.checkAuthentication, adminCtl.checkChangePassword);
 
-route.get('/profile', adminCtl.profile);
+route.get('/profile',passport.checkAuthentication, adminCtl.profile);
 
 route.get('/verifyEmail', adminCtl.verifyEmail);
 
@@ -34,18 +34,18 @@ route.get('/newPassword', adminCtl.newPassword);
 
 route.post('/forgotPassword', adminCtl.forgotPassword);
 
-route.get('/dashboard', adminCtl.dashboard);
+route.get('/dashboard',passport.checkAuthentication ,adminCtl.dashboard);
 
-route.get('/add-admin', adminCtl.addAdmin);
+route.get('/add-admin',passport.checkAuthentication, adminCtl.addAdmin);
 
-route.post('/insertAdminData',Admin.uploadAdminImages ,adminCtl.insertAdminData);
+route.post('/insertAdminData',passport.checkAuthentication,Admin.uploadAdminImages,adminCtl.insertAdminData);
 
-route.get('/view-admin', adminCtl.viewAdmin);
+route.get('/view-admin',passport.checkAuthentication, adminCtl.viewAdmin);
 
-route.get('/deleteAdmin/:_id', adminCtl.deleteAdmin);
+route.get('/deleteAdmin/:_id',passport.checkAuthentication, adminCtl.deleteAdmin);
 
-route.get('/updateAdmin/', adminCtl.updateAdmin);
+route.get('/updateAdmin/',passport.checkAuthentication, adminCtl.updateAdmin);
 
-route.post('/editAdminData/:id',Admin.uploadAdminImages,adminCtl.editAdminData);
+route.post('/editAdminData/:id',passport.checkAuthentication,Admin.uploadAdminImages,adminCtl.editAdminData);
 
 module.exports = route;

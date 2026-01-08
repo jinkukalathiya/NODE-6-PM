@@ -8,6 +8,13 @@
         <div class="container-fluid">
           <!--begin::Row-->
           <div class="row">
+            <!-- <div class="col-sm-12">
+              <% if(locals.flash.success && locals.flash.success.length > 0) {%>
+                <div class="alert alert-success">
+                  <%= locals.flash.success %>
+                </div>
+              <% } %>
+            </div> -->
             <div class="col-sm-6">
               <h3 class="mb-0">Dashboard</h3>
             </div>
@@ -365,3 +372,18 @@
     <!--end::App Main-->
 
 <%- include('./footer.ejs') %>
+
+<script>
+  Swal.fire({
+    title: "<%= locals.flash.success %>",
+    icon: "success"
+  });
+</script>
+<!-- 
+<script>
+  <% if(locals.flash.success && locals.flash.success.length > 0) {%>
+    <div class="alert alert-success">
+      <%= locals.flash.success %>
+    </div>
+  <% } %>
+</script> -->

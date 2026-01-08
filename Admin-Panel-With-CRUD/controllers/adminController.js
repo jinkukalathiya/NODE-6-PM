@@ -102,7 +102,8 @@ module.exports.checkChangePassword = async(req, res) => {
 
 module.exports.checkLogin = async (req, res) => {
     try{
-        console.log("Login Successfully");
+        // console.log("Login Successfully");
+        req.flash('success',"Login Successfully...!");
         return res.redirect('/dashboard');
     }
     catch(err){
@@ -296,12 +297,14 @@ module.exports.insertAdminData = async(req, res) => {
         }
         let adminRecord = await Admin.create(req.body);
         if(adminRecord){
-            console.log("Admin Record Inserted Successfully..");
+            req.flash('success',"Admin Record Inserted Successfully..!");
+            // console.log("Admin Record Inserted Successfully..");
             return res.redirect("/add-admin");
         }
         else{
-            console.log("Error in Inserting Admin Record..");
-            return res.redirect('back');
+            // console.log("Error in Inserting Admin Record..");
+            req.flash('error',"Error in Inserting Admin Record..!");
+            return res.redirect('/add-admin');
         }
     }
     catch(err){

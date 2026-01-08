@@ -8,6 +8,19 @@
       <div class="container-fluid">
         <!--begin::Row-->
         <div class="row">
+          <div class="col-sm-12">
+              <% if(locals.flash.success && locals.flash.success.length > 0) {%>
+                <div class="alert alert-success">
+                  <%= locals.flash.success %>
+                </div>
+              <% } %>
+
+              <% if(locals.flash.error && locals.flash.error.length > 0) {%>
+                <div class="alert alert-danger">
+                  <%= locals.flash.error %>
+                </div>
+              <% } %>
+            </div>
           <div class="col-sm-6">
             <h3 class="mb-0">Add Admin</h3>
           </div>
@@ -39,19 +52,19 @@
                 <div class="card-body">
                   <div class="mb-3">
                     <label class="form-label">First Name</label>
-                    <input type="text" name="fname" class="form-control" placeholder="Enter Your First Name" />
+                    <input type="text" name="fname" class="form-control" placeholder="Enter Your First Name" required />
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Last Name</label>
-                    <input type="text" name="lname" class="form-control" placeholder="Enter Your Last Name" />
+                    <input type="text" name="lname" class="form-control" placeholder="Enter Your Last Name" required/>
                   </div>
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Enter Your Email Address" />
+                    <input type="email" name="email" class="form-control" placeholder="Enter Your Email Address" required/>
                   </div>
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Enter Your Password" />
+                    <input type="password" name="password" class="form-control" placeholder="Enter Your Password" required/>
                   </div>
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Gender</label>

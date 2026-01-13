@@ -2,7 +2,7 @@ const express = require('express');
 
 const route = express.Router();
 
-console.log("Routing..");
+console.log("Admin Routing..");
 
 const adminCtl = require('../controllers/adminController');
 
@@ -47,5 +47,8 @@ route.get('/deleteAdmin/:_id',passport.checkAuthentication, adminCtl.deleteAdmin
 route.get('/updateAdmin/',passport.checkAuthentication, adminCtl.updateAdmin);
 
 route.post('/editAdminData/:id',passport.checkAuthentication,Admin.uploadAdminImages,adminCtl.editAdminData);
+
+route.use("/category",require("./categoryRoutes"));
+route.use("/subcategory",require("./subCategoryRoutes"));
 
 module.exports = route;

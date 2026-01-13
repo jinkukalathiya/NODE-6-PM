@@ -1,0 +1,76 @@
+<%- include('./header.ejs') %>
+
+  <!--begin::App Main-->
+      <main class="app-main">
+        <!--begin::App Content Header-->
+        <div class="app-content-header">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-sm-6"><h3 class="mb-0">View Category</h3></div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">View Category</li>
+                </ol>
+              </div>
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <!-- /.col -->
+              <div class="col-md-12">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <h3 class="card-title">View Category Data</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body p-0">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th style="width: 10px">#</th>
+                          <th>Category Name</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% var i = 1;  for(var record of categoryData) { %>
+                          <tr>
+                            <td><%= i %></td>
+                            <td><%= record.cname %></td>
+                            <td><%= record.status %></td>
+                            <td>
+                              <!-- <a class="text-danger" href="/deleteAdmin/<%= record._id %>" onclick="return confirm('Are you Sure to delete this Record ?')" ><i class="bi bi-trash3-fill"></i></a>
+                              <a class="text-danger" href="/updateAdmin/?adminId=<%= record._id %>" ><i class="bi bi-pencil-square"></i></a> -->
+                            </td>
+                          </tr>
+                        <% i++; } %>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content-->
+      </main>
+      <!--end::App Main-->
+
+  <%- include('./footer.ejs') %>
